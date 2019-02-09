@@ -1,0 +1,21 @@
+# database settings
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: 'jdbc:mysql://127.0.0.1:3306/appointment_db?createDatabaseIfNotExist=true'
+  user: root
+  password: password
+
+# Server settings
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+# Logging settings.
+logging:
+  level: INFO
+  appenders:
+    - type: console
