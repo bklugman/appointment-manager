@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'com.bklugman'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext{
+    //dependencies
+    junitVersion = '5.3.1'
+    dropwizardVersion = '1.3.8'
+}
+
+dependencies {
+    compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
+    // test dependencies
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+}
+
+test {
+    useJUnitPlatform()
+}
