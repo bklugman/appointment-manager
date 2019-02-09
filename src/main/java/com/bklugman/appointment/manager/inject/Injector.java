@@ -1,15 +1,15 @@
 package com.bklugman.appointment.manager.inject;
 
-import com.bklugman.appointment.manager.config.AppointmentManagerConfig;
 import com.bklugman.appointment.manager.resource.AppointmentResource;
+import org.hibernate.SessionFactory;
 
 /**
  * a class for managing the dependency injection for the application
  */
 public class Injector {
 
-    public static ApplicationScope createApplicationScope(final AppointmentManagerConfig config) {
-        return new ApplicationScope();
+    public static ApplicationScope createApplicationScope(final SessionFactory sessionFactory) {
+        return new ApplicationScope(sessionFactory);
     }
 
     public static AppointmentResource getAppointmentResource(final ApplicationScope applicationScope) {

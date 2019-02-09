@@ -21,6 +21,7 @@ ext {
 dependencies {
     compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
     compile "io.dropwizard:dropwizard-migrations:$dropwizardVersion"
+    compile "io.dropwizard:dropwizard-hibernate:$dropwizardVersion"
 
     //runtime dependencies
     runtime "mysql:mysql-connector-java:$mySqlVersion"
