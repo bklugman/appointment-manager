@@ -12,7 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * a class for managing the appointment resources
@@ -21,13 +20,18 @@ import java.util.function.Supplier;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AppointmentResource {
-
     private final AppointmentDao appointmentDao;
 
     public AppointmentResource(final AppointmentDao appointmentDao) {
         this.appointmentDao = appointmentDao;
     }
 
+    /**
+     * create a new appointment.
+     *
+     * @param appointmentToStore the new appointment to create.
+     * @return a response with the newly created appointment.
+     */
     @POST
     @UnitOfWork
     public Response createAppointment(final Appointment appointmentToStore) {
@@ -37,6 +41,13 @@ public class AppointmentResource {
                 .build();
     }
 
+    /**
+     * fetches all appointments between [startDate, endDate].
+     *
+     * @param startDate the start date.
+     * @param endDate   the end date.
+     * @return a list of appointments between [startDate, endDate].
+     */
     @GET
     @UnitOfWork(readOnly = true)
     public List<Appointment> getAppointments(@QueryParam("startDate") final long startDate,
@@ -44,23 +55,32 @@ public class AppointmentResource {
         return appointmentDao.getAppointmentsBetweenDates(startDate, endDate);
     }
 
+    /**
+     * fetches an appointment by ID.
+     *
+     * @param appointmentId the appointment's id.
+     * @return the appointment with the corresponding ID.
+     * @throws NotFoundException if there is no corresponding appointment.
+     */
     @GET
     @Path(("/{id}"))
     @UnitOfWork(readOnly = true)
     public Appointment getAppointment(@PathParam("id") final long appointmentId) {
-
         return getAppointmentWithId(appointmentId);
     }
 
-    private Appointment getAppointmentWithId(@PathParam("id") long appointmentId) {
+    private Appointment getAppointmentWithId(long appointmentId) {
         return appointmentDao.getAppointmentById(appointmentId)
-                .orElseThrow(getNotFoundExceptionSupplier(appointmentId));
+                .orElseThrow(() -> new NotFoundException("No appointment exists with id=" + appointmentId));
     }
 
-    private Supplier<NotFoundException> getNotFoundExceptionSupplier(@PathParam("id") long appointmentId) {
-        return () -> new NotFoundException("No appointment exists with id=" + appointmentId);
-    }
-
+    /**
+     * updates the status of an appointment.
+     *
+     * @param appointmentId the id of the appointment to update.
+     * @param request       the value to update the status to.
+     * @throws NotFoundException if there is no corresponding appointment.
+     */
     @PATCH
     @Path(("/{id}"))
     @UnitOfWork
@@ -70,6 +90,12 @@ public class AppointmentResource {
 
     }
 
+    /**
+     * delete an appointment.
+     *
+     * @param appointmentId the id of the appointment to delete.
+     * @throws NotFoundException if there is no corresponding appointment.
+     */
     @DELETE
     @Path(("/{id}"))
     @UnitOfWork

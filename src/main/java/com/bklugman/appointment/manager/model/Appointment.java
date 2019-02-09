@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * the java representation of the APPOINTMENT table.
+ */
 @Entity
 @Table(name = "appointment")
 public class Appointment {
@@ -18,6 +21,9 @@ public class Appointment {
     private AppointmentStatus appointmentStatus;
     private double price;
 
+    /**
+     * convenience constructor for testing
+     */
     @VisibleForTesting
     public Appointment(Date created, Date appointmentDate, long appointmentDurationMillis, String doctorName, AppointmentStatus appointmentStatus, double price) {
         this.created = created;

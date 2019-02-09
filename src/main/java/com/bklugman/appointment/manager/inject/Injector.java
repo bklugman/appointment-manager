@@ -5,16 +5,17 @@ import com.bklugman.appointment.manager.resource.AppointmentResource;
 import org.hibernate.SessionFactory;
 
 /**
- * a class for managing the dependency injection for the application
+ * a class for managing the dependency injection for the application.
  */
 public class Injector {
-
-    public static ApplicationScope createApplicationScope(final SessionFactory sessionFactory) {
-        return new ApplicationScope(sessionFactory);
-    }
-
-    public static AppointmentResource getAppointmentResource(final ApplicationScope applicationScope) {
-        return new AppointmentResource(new AppointmentDao(applicationScope.getSessionFactory()));
+    /**
+     * get an instance of {@link AppointmentResource}.
+     *
+     * @param sessionFactory the hibernate session factory.
+     * @return an instance of {@link AppointmentResource}.
+     */
+    public static AppointmentResource getAppointmentResource(final SessionFactory sessionFactory) {
+        return new AppointmentResource(new AppointmentDao(sessionFactory));
     }
 
     private Injector() {

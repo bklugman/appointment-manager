@@ -1,7 +1,6 @@
 package com.bklugman.appointment.manager.app;
 
 import com.bklugman.appointment.manager.config.AppointmentManagerConfig;
-import com.bklugman.appointment.manager.inject.ApplicationScope;
 import com.bklugman.appointment.manager.inject.Injector;
 import com.bklugman.appointment.manager.model.Appointment;
 import io.dropwizard.Application;
@@ -18,6 +17,11 @@ import io.dropwizard.setup.Environment;
  */
 public class AppointmentManager extends Application<AppointmentManagerConfig> {
 
+    /**
+     * creates the appointment-manager application and runs it.
+     *
+     * @param argv the program arguments.
+     */
     public static void main(String[] argv) throws Exception {
         new AppointmentManager().run(argv);
     }
@@ -29,6 +33,11 @@ public class AppointmentManager extends Application<AppointmentManagerConfig> {
         }
     };
 
+    /**
+     * Add any required bundles to the application.
+     *
+     * @param bootstrap {@inheritDoc}
+     */
     @Override
     public void initialize(Bootstrap<AppointmentManagerConfig> bootstrap) {
         bootstrap.addBundle(new MigrationsBundle<AppointmentManagerConfig>() {
@@ -40,10 +49,14 @@ public class AppointmentManager extends Application<AppointmentManagerConfig> {
         bootstrap.addBundle(hibernateBundle);
     }
 
+    /**
+     * Adds the different resources to the application's jersey environment.
+     *
+     * @param configuration {@inheritDoc}
+     * @param environment   {@inheritDoc}
+     */
     @Override
     public void run(AppointmentManagerConfig configuration, Environment environment) {
-        final ApplicationScope applicationScope = Injector.createApplicationScope(hibernateBundle.getSessionFactory());
-
-        environment.jersey().register(Injector.getAppointmentResource(applicationScope));
+        environment.jersey().register(Injector.getAppointmentResource(hibernateBundle.getSessionFactory()));
     }
 }
