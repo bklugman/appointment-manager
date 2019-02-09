@@ -1,0 +1,25 @@
+version: '3'
+services:
+  mysql:
+    container_name: appointment-manager-mysql
+    image: mysql/mysql-server
+    environment:
+      MYSQL_DATABASE: appointment_db
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    restart: always
+
+  app:
+    restart: always
+    container_name: appointment-manager-app
+    build: ./
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c './gradlew run --args="db migrate config.yml"
+      && ./gradlew run --args="server config.yml"'
+    depends_on:
+      - mysql
