@@ -26,6 +26,9 @@
             <column name="status" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>
+            <column name="price" type="decimal">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>
