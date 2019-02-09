@@ -1,5 +1,6 @@
 package com.bklugman.appointment.manager.model;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Appointment {
     private AppointmentStatus appointmentStatus;
     private double price;
 
+    @VisibleForTesting
     public Appointment(Date created, Date appointmentDate, long appointmentDurationMillis, String doctorName, AppointmentStatus appointmentStatus, double price) {
         this.created = created;
         this.appointmentDate = appointmentDate;
@@ -24,6 +26,10 @@ public class Appointment {
         this.doctorName = doctorName;
         this.appointmentStatus = appointmentStatus;
         this.price = price;
+    }
+
+    private Appointment() {
+        // needed for jackson serialization
     }
 
     @Id

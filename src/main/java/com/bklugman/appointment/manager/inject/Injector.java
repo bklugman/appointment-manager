@@ -1,5 +1,6 @@
 package com.bklugman.appointment.manager.inject;
 
+import com.bklugman.appointment.manager.dao.AppointmentDao;
 import com.bklugman.appointment.manager.resource.AppointmentResource;
 import org.hibernate.SessionFactory;
 
@@ -13,7 +14,7 @@ public class Injector {
     }
 
     public static AppointmentResource getAppointmentResource(final ApplicationScope applicationScope) {
-        return new AppointmentResource();
+        return new AppointmentResource(new AppointmentDao(applicationScope.getSessionFactory()));
     }
 
     private Injector() {
