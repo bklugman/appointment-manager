@@ -29,6 +29,8 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
     }
 
     public Appointment createAppointment(final Appointment appointment) {
+        // this is the date we're inserting the appointment
+        appointment.setCreated(new Date());
         return persist(appointment);
     }
 

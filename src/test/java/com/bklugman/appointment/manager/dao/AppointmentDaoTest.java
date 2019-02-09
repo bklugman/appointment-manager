@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * a test class for {@link AppointmentDao}
@@ -40,9 +41,12 @@ class AppointmentDaoTest {
 
     private void shouldBeAbleToFetchTokenByIdWhenSaved() {
         Appointment newAppointment = getAppointment(50.5);
+        Date dateInThePast = new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
+        newAppointment.setCreated(dateInThePast);
         Appointment createdAppointment = database.inTransaction(() ->
                 appointmentDao.createAppointment(newAppointment)
         );
+        assertTrue(newAppointment.getCreated().after(dateInThePast));
         Appointment fetchedAppointment = appointmentDao.getAppointmentById(createdAppointment.getId())
                 .orElseThrow(() -> new NullPointerException("not expecting null"));
 
