@@ -28,9 +28,9 @@ import java.util.function.Supplier;
 @Produces(MediaType.APPLICATION_JSON)
 public class AppointmentSchedulerResource {
     private final AppointmentDao appointmentDao;
-    private final Supplier<Long> randomNumberGenerator;
+    private final Supplier<Integer> randomNumberGenerator;
 
-    public AppointmentSchedulerResource(AppointmentDao appointmentDao, Supplier<Long> randomNumberGenerator) {
+    public AppointmentSchedulerResource(AppointmentDao appointmentDao, Supplier<Integer> randomNumberGenerator) {
         this.appointmentDao = appointmentDao;
         this.randomNumberGenerator = randomNumberGenerator;
     }

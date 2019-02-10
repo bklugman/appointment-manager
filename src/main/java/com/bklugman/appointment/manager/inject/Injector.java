@@ -6,6 +6,7 @@ import com.bklugman.appointment.manager.resource.AppointmentSchedulerResource;
 import org.hibernate.SessionFactory;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * a class for managing the dependency injection for the application.
@@ -35,7 +36,7 @@ public class Injector {
      */
     public static AppointmentSchedulerResource getAppointmentSchedulerResource(final SessionFactory sessionFactory) {
         AppointmentDao appointmentDao = getAppointmentDao(sessionFactory);
-        return new AppointmentSchedulerResource(appointmentDao, RANDOM::nextLong);
+        return new AppointmentSchedulerResource(appointmentDao, () -> (int) TimeUnit.HOURS.toMillis(1));
     }
 
     private Injector() {

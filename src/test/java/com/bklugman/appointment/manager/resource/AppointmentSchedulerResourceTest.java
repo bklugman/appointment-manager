@@ -31,8 +31,8 @@ import static org.mockito.Mockito.when;
  */
 class AppointmentSchedulerResourceTest {
     private static final AppointmentDao MOCK_DAO = mock(AppointmentDao.class);
-    private static final Supplier<Long> MOCK_RANDOM_NUMBER_GENERATOR = mock(Supplier.class);
-    private static final long RANDOM_NUMBER = 100;
+    private static final Supplier<Integer> MOCK_RANDOM_NUMBER_GENERATOR = mock(Supplier.class);
+    private static final int RANDOM_NUMBER = 100;
     private int callCount;
 
     private final ResourceTestRule resources = ResourceTestRule.builder()
