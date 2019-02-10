@@ -15,8 +15,8 @@ file.
 To run the application:
 
 run `$: docker-compose up` in the appointment-manager directory
-  - this will start the application and all of its dependencies for you
-  - Note: there may be some error logs on the first run, but the app will restart itself and resolve the issue
+  - this will start the application and all of its dependencies
+  - Note: there may be some error logs on the first run, but docker-compose will restart the app and resolve the issue
     - this happens because the application can start before the database is accepting connections
   
 When you see the following logs, the application has finished launching:
