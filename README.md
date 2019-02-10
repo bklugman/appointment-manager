@@ -8,7 +8,7 @@ Before running locally the following dependencies must be installed
 - [Docker](https://www.docker.com/products/docker-desktop)
 
 ### Running
-Before running the application, make sure that nothing is running on port 8080, or update 
+Make sure that nothing is running on port 8080, or update 
 the local port that is exposed in the [docker-compose.yaml](https://github.com/bklugman/appointment-manager/blob/master/docker-compose.yaml#L20)
 file.
 

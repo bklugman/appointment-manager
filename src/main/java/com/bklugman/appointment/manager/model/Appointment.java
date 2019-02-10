@@ -3,6 +3,7 @@ package com.bklugman.appointment.manager.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.annotations.VisibleForTesting;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,9 +24,12 @@ import java.util.Objects;
 public class Appointment {
     private Long id;
     private Date created;
+    @NotNull
     private Date appointmentDate;
     private long appointmentDurationMillis;
+    @NotEmpty
     private String doctorName;
+    @NotNull
     private AppointmentStatus appointmentStatus;
     private double price;
 

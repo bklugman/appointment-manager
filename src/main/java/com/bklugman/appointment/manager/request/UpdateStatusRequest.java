@@ -3,11 +3,14 @@ package com.bklugman.appointment.manager.request;
 import com.bklugman.appointment.manager.model.AppointmentStatus;
 import com.google.common.annotations.VisibleForTesting;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * a representation of the request made to update an appointments
+ * a representation of the request made to update an appointment's
  * status.
  */
 public class UpdateStatusRequest {
+    @NotNull
     private AppointmentStatus status;
 
     /**

@@ -36,7 +36,8 @@ public class Injector {
      */
     public static AppointmentSchedulerResource getAppointmentSchedulerResource(final SessionFactory sessionFactory) {
         AppointmentDao appointmentDao = getAppointmentDao(sessionFactory);
-        return new AppointmentSchedulerResource(appointmentDao, () -> (int) TimeUnit.HOURS.toMillis(1));
+        final int randomBound = (int) TimeUnit.HOURS.toMillis(1);
+        return new AppointmentSchedulerResource(appointmentDao, () -> RANDOM.nextInt(randomBound));
     }
 
     private Injector() {

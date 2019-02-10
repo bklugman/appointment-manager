@@ -163,7 +163,7 @@ class AppointmentResourceTest {
     @Test
     void deleteAppointment() throws Throwable {
         RuleToJUnit5Bridge.runTestWithRule(this::shouldDeleteAppointmentWhenDeleteIsCalled, resources);
-        RuleToJUnit5Bridge.runTestWithRule(this::shouldReturn404WhenUpdateCalledWithBadId, resources);
+        RuleToJUnit5Bridge.runTestWithRule(this::shouldReturn404WhenDeleteCalledWithBadId, resources);
     }
 
     private void shouldDeleteAppointmentWhenDeleteIsCalled() {
@@ -181,5 +181,30 @@ class AppointmentResourceTest {
                 .request()
                 .delete();
         assertEquals(HttpStatus.NOT_FOUND_404, response.getStatus());
+    }
+
+    @Test
+    void inputValidation() throws Throwable {
+        RuleToJUnit5Bridge.runTestWithRule(this::shouldReturnClientErrorForMissingAppointment, resources);
+    }
+
+    private void shouldReturnClientErrorForMissingAppointment() {
+        Response response = resources.target("v1/appointments")
+                .request()
+                .post(Entity.entity(null, MediaType.APPLICATION_JSON_TYPE));
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, response.getStatus());
+
+        Appointment newAppointment = new Appointment(
+                null,
+                null,
+                TimeUnit.HOURS.toMillis(2),
+                "dr. foo bar",
+                null,
+                124.60
+        );
+        response = resources.target("v1/appointments")
+                .request()
+                .post(Entity.entity(newAppointment, MediaType.APPLICATION_JSON_TYPE));
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, response.getStatus());
     }
 }

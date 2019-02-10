@@ -12,8 +12,8 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 /**
- * the application class for the appointment manager.
- * This class will add all of the REST resources to the application server.
+ * The main class for the appointment manager application.
+ * This class will also add all of the http resources to the application server.
  */
 public class AppointmentManager extends Application<AppointmentManagerConfig> {
 
@@ -50,7 +50,7 @@ public class AppointmentManager extends Application<AppointmentManagerConfig> {
     }
 
     /**
-     * Adds the different resources to the application's jersey environment.
+     * Adds the required resources to the application's jersey environment.
      *
      * @param configuration {@inheritDoc}
      * @param environment   {@inheritDoc}

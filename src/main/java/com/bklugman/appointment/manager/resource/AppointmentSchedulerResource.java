@@ -60,13 +60,13 @@ public class AppointmentSchedulerResource {
         List<Appointment> createdAppointments = new ArrayList<>();
         createdAppointments.add(appointmentDao.createAppointment(appointment));
         for (int i = 1; i < numberToCreate; ++i) {
-            Appointment appointmentToCreate = incrementAppointmentDate(appointment);
+            Appointment appointmentToCreate = adjustAppointmentDate(appointment);
             createdAppointments.add(appointmentDao.createAppointment(appointmentToCreate));
         }
         return createdAppointments;
     }
 
-    private Appointment incrementAppointmentDate(final Appointment baseAppointment) {
+    private Appointment adjustAppointmentDate(final Appointment baseAppointment) {
         return new Appointment(
                 baseAppointment.getCreated(),
                 new Date(baseAppointment.getAppointmentDate().getTime() + randomNumberGenerator.get()),

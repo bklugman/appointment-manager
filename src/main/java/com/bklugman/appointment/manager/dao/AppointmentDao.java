@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * a data access object for {@link Appointment}
+ * A data access object for {@link Appointment}
  */
 public class AppointmentDao extends AbstractDAO<Appointment> {
     private static final String START_DATE_KET = "startDate";
@@ -19,7 +19,7 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
             Appointment.class.getName(), START_DATE_KET, END_DATE_KEY);
 
     /**
-     * Creates a new DAO with a given session provider.
+     * Instantiates a DAO with a given session provider.
      *
      * @param sessionFactory a session provider
      */
@@ -40,8 +40,8 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
 
     /**
      * will create and save a new appointment to the database.
-     * Note: this method will override any created fields that are set to
-     * the current time.
+     * Note: this method will override the created field to the
+     * current time.
      *
      * @param appointment the appointment to create
      * @return the newly created appointment
@@ -62,7 +62,8 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
     }
 
     /**
-     * fetches all of the appointments between the provided times.
+     * fetches all of the appointments between the provided times,
+     * and sorts them by price.
      *
      * @param startDateMillis the start date in milliseconds
      * @param endDateMillis   the end date in milliseconds
@@ -85,7 +86,7 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
      *
      * @param appointment the appointment to update.
      * @param newStatus   the status to set.
-     * @return the newly updated status.
+     * @return the newly updated appointment.
      */
     public Appointment updateStatus(final Appointment appointment, final AppointmentStatus newStatus) {
         appointment.setAppointmentStatus(newStatus);

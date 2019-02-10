@@ -8,10 +8,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * a java representation of the applications configuration
+ * A java representation of the applications configuration.
  */
 public class AppointmentManagerConfig extends Configuration {
 
+    /**
+     * The connection pool to the database.
+     */
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();

@@ -7,6 +7,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.PATCH;
 import org.eclipse.jetty.http.HttpStatus;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,12 +38,12 @@ public class AppointmentResource {
     /**
      * create a new appointment.
      *
-     * @param appointmentToStore the new appointment to create.
+     * @param appointmentToStore the new appointment to create that has been validated.
      * @return a response with the newly created appointment.
      */
     @POST
     @UnitOfWork
-    public Response createAppointment(final Appointment appointmentToStore) {
+    public Response createAppointment(@Valid @NotNull final Appointment appointmentToStore) {
         Appointment appointment = appointmentDao.createAppointment(appointmentToStore);
         return Response.status(HttpStatus.CREATED_201)
                 .entity(appointment)
@@ -54,7 +55,7 @@ public class AppointmentResource {
      *
      * @param startDate the start date.
      * @param endDate   the end date.
-     * @return a list of appointments between [startDate, endDate].
+     * @return a list of appointments between [startDate, endDate] sorted by price ascending.
      */
     @GET
     @UnitOfWork(readOnly = true)
@@ -92,7 +93,8 @@ public class AppointmentResource {
     @PATCH
     @Path(("/{id}"))
     @UnitOfWork
-    public void updateAppointmentStatus(@PathParam("id") final long appointmentId, @NotNull final UpdateStatusRequest request) {
+    public void updateAppointmentStatus(@PathParam("id") final long appointmentId,
+                                        @Valid @NotNull final UpdateStatusRequest request) {
         Appointment appointment = getAppointmentWithId(appointmentId);
         appointmentDao.updateStatus(appointment, request.getStatus());
 
