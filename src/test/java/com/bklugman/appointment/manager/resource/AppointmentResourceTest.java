@@ -50,12 +50,14 @@ class AppointmentResourceTest {
 
     private void shouldReturn201AndNewAppointmentWhenPostIsCalled() {
         Appointment newAppointment = getAppointmentWithId(null);
+        newAppointment.setCreated(null);
         Appointment appointmentToReturn = getAppointmentWithId(9823764L);
         when(MOCK_DAO.createAppointment(newAppointment)).thenReturn(appointmentToReturn);
         Response response = resources.target("v1/appointments")
                 .request()
                 .post(Entity.entity(newAppointment, MediaType.APPLICATION_JSON));
         assertEquals(HttpStatus.CREATED_201, response.getStatus());
+        appointmentToReturn.setCreated(null);
         assertEquals(appointmentToReturn, response.readEntity(Appointment.class));
     }
 
@@ -85,6 +87,7 @@ class AppointmentResourceTest {
                 .request()
                 .get();
         assertEquals(HttpStatus.OK_200, response.getStatus());
+        appointment.setCreated(null);
         assertEquals(appointment, response.readEntity(Appointment.class));
     }
 

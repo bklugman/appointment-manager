@@ -58,5 +58,6 @@ public class AppointmentManager extends Application<AppointmentManagerConfig> {
     @Override
     public void run(AppointmentManagerConfig configuration, Environment environment) {
         environment.jersey().register(Injector.getAppointmentResource(hibernateBundle.getSessionFactory()));
+        environment.jersey().register(Injector.getAppointmentSchedulerResource(hibernateBundle.getSessionFactory()));
     }
 }
