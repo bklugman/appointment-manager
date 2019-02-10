@@ -68,6 +68,6 @@ The following technologies were used for this application:
 
 - [Java 8](https://openjdk.java.net/projects/jdk8/)
 - [MySql](https://dev.mysql.com/doc/)
-- [Dropwizard](https://www.dropwizard.io/1.3.8/docs/getting-started.html)
+- [Dropwizard](https://www.dropwizard.io/1.3.8/docs/index.html)
 - [Liquidbase](http://www.liquibase.org/) to manage database schema
 - [Hibernate](http://hibernate.org/orm/) as an ORM
