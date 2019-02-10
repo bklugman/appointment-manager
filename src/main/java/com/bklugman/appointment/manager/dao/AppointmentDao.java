@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AppointmentDao extends AbstractDAO<Appointment> {
     private static final String START_DATE_KET = "startDate";
     private static final String END_DATE_KEY = "endDate";
-    private static final String DATE_QUERY = String.format("FROM %s A WHERE A.appointmentDate >= :%s and A.appointmentDate <= :%s",
+    private static final String DATE_QUERY = String.format("FROM %s A WHERE A.appointmentDate >= :%s and A.appointmentDate <= :%s order by A.price asc",
             Appointment.class.getName(), START_DATE_KET, END_DATE_KEY);
 
     /**
@@ -68,8 +68,9 @@ public class AppointmentDao extends AbstractDAO<Appointment> {
      * @param endDateMillis   the end date in milliseconds
      * @return the list of all appointments whose appointment date is
      * between {@code startDateMillis} and {@code endDateMillis} inclusive.
+     * The appointments will be sorted by price ascending.
      */
-    public List<Appointment> getAppointmentsBetweenDates(final long startDateMillis, final long endDateMillis) {
+    public List<Appointment> getAppointmentsBetweenDatesByPrice(final long startDateMillis, final long endDateMillis) {
         Date startDate = new Date(startDateMillis);
         Date endDate = new Date(endDateMillis);
 

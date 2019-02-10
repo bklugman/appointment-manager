@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * a test class for {@link Appointment}
  */
 class AppointmentTest {
-    private static final String EXPECTED_RESPONSE = "{\"id\":987236,\"created\":1549744018033,\"appointmentDate\":1549744018033,\"appointmentDurationMillis\":7200000,\"doctorName\":\"dr. foo bar\",\"appointmentStatus\":\"AVAILABLE\",\"price\":124.6}";
+    private static final String EXPECTED_RESPONSE = "{\"id\":987236,\"appointmentDate\":1549744018033,\"appointmentDurationMillis\":7200000,\"doctorName\":\"dr. foo bar\",\"appointmentStatus\":\"AVAILABLE\",\"price\":124.6}";
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     void shouldSerializeDatesAsLongs() throws IOException {
         Appointment appointment = new Appointment(
-                new Date(1549744018033L),
+                null,
                 new Date(1549744018033L),
                 TimeUnit.HOURS.toMillis(2),
                 "dr. foo bar",

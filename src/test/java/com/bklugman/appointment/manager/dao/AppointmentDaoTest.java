@@ -7,6 +7,7 @@ import io.dropwizard.testing.junit.DAOTestRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -111,16 +112,16 @@ class AppointmentDaoTest {
 
     private void shouldBeAbleToFetchAppointmentsWithinDate() {
         final long currentTime = System.currentTimeMillis();
-        List<Appointment> appointments = Stream.of(10, 20, 30, 40)
-                .map(increment -> new Date(currentTime + TimeUnit.SECONDS.toMillis(increment)))
-                .map(appointmentDate ->
+        List<Appointment> appointments = Stream.of(20, 10, 30, 40)
+                .map(increment ->
                         database.inTransaction(() ->
-                                appointmentDao.createAppointment(getAppointment(23, appointmentDate))
+                                appointmentDao.createAppointment(getAppointment(increment, new Date(currentTime + TimeUnit.SECONDS.toMillis(increment))))
                         )
                 ).collect(Collectors.toList());
-        assertEquals(appointments.subList(1, 3), appointmentDao.getAppointmentsBetweenDates(currentTime + TimeUnit.SECONDS.toMillis(20), currentTime + TimeUnit.SECONDS.toMillis(30)));
-        assertEquals(appointments.subList(0, 2), appointmentDao.getAppointmentsBetweenDates(currentTime + TimeUnit.SECONDS.toMillis(5), currentTime + TimeUnit.SECONDS.toMillis(29)));
-        assertEquals(Collections.emptyList(), appointmentDao.getAppointmentsBetweenDates(currentTime, currentTime + TimeUnit.SECONDS.toMillis(9)));
+
+        assertEquals(Arrays.asList(appointments.get(0), appointments.get(2)), appointmentDao.getAppointmentsBetweenDatesByPrice(currentTime + TimeUnit.SECONDS.toMillis(20), currentTime + TimeUnit.SECONDS.toMillis(30)));
+        assertEquals(Arrays.asList(appointments.get(1), appointments.get(0)), appointmentDao.getAppointmentsBetweenDatesByPrice(currentTime + TimeUnit.SECONDS.toMillis(5), currentTime + TimeUnit.SECONDS.toMillis(29)));
+        assertEquals(Collections.emptyList(), appointmentDao.getAppointmentsBetweenDatesByPrice(currentTime, currentTime + TimeUnit.SECONDS.toMillis(9)));
     }
 
 }

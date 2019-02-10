@@ -22,7 +22,10 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * a test class for {@link AppointmentResource}
@@ -101,7 +104,7 @@ class AppointmentResourceTest {
         long start = System.currentTimeMillis();
         long end = System.currentTimeMillis() + 9827364;
         List<Appointment> appointments = Arrays.asList(getAppointmentWithId(19078L), getAppointmentWithId(9286374L));
-        when(MOCK_DAO.getAppointmentsBetweenDates(start, end)).thenReturn(appointments);
+        when(MOCK_DAO.getAppointmentsBetweenDatesByPrice(start, end)).thenReturn(appointments);
         Response response = resources.target("v1/appointments")
                 .queryParam("startDate", start)
                 .queryParam("endDate", end)
