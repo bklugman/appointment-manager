@@ -54,7 +54,7 @@ Retrieve appointments between a date range:
 curl 'http://localhost:8080/v1/appointments?startDate=1549644018032&endDate=1549844018034'
 ```
 
-### Modifying how Appointments are Created in the Background
+### Configuring Background Appointment Creation 
 This application has a background service that will create appointments
 at a random interval. Below are the different configuration options that can be changed
 
