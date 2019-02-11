@@ -53,6 +53,16 @@ Retrieve appointments between a date range:
 ```
 curl 'http://localhost:8080/v1/appointments?startDate=1549644018032&endDate=1549844018034'
 ```
+
+### Modifying how Appointments are Created in the Background
+This application has a background service that will create appointments
+at a random interval. Below are the different configuration options that can be changed
+
+- [delay](https://github.com/bklugman/appointment-manager/blob/master/config.yml#L24)  - controls the frequency at which random appointments are created (larger delays means fewer appointments will be 
+  created and vice-versa)
+- [price](https://github.com/bklugman/appointment-manager/blob/master/config.yml#L25) - the price of the random appointments created
+- [duration](https://github.com/bklugman/appointment-manager/blob/master/config.yml#L26) - the duration of the random appointments in millis
+- [doctor](https://github.com/bklugman/appointment-manager/blob/master/config.yml#L27) - the name of the doctor for the random appointments  
   
 ### Running Unit Tests
 run `$: ./gradlew test` in the appointment-manager directory
