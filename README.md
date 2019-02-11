@@ -23,7 +23,6 @@ When you see the following logs, the application has finished launching:
 ```
 appointment-manager-app | INFO  [2019-02-10 04:27:07,823] io.dropwizard.jersey.DropwizardResourceConfig: The following paths were found for the configured resources:
 appointment-manager-app |
-appointment-manager-app |     POST    /v1/appointment-scheduler (com.bklugman.appointment.manager.resource.AppointmentSchedulerResource)
 appointment-manager-app |     GET     /v1/appointments (com.bklugman.appointment.manager.resource.AppointmentResource)
 appointment-manager-app |     POST    /v1/appointments (com.bklugman.appointment.manager.resource.AppointmentResource)
 appointment-manager-app |     DELETE  /v1/appointments/{id} (com.bklugman.appointment.manager.resource.AppointmentResource)
@@ -53,11 +52,6 @@ curl -X PATCH 'http://localhost:8080/v1/appointments/12' -d '{"status": "BOOKED"
 Retrieve appointments between a date range:
 ```
 curl 'http://localhost:8080/v1/appointments?startDate=1549644018032&endDate=1549844018034'
-```
-
-Schedule multiple appointments with a random appointment time offset: 
-```
-curl 'http://localhost:8080/v1/appointment-scheduler?numberToCreate=25' -d '{"appointmentDate":1549744018033,"appointmentDurationMillis":7200000,"doctorName":"dr. foo bar","appointmentStatus":"AVAILABLE","price":124.6}' -H "Content-type: application/json"
 ```
   
 ### Running Unit Tests

@@ -1,18 +1,20 @@
 package com.bklugman.appointment.manager.inject;
 
+import com.bklugman.appointment.manager.config.AppointmentManagerConfig;
 import com.bklugman.appointment.manager.dao.AppointmentDao;
 import com.bklugman.appointment.manager.resource.AppointmentResource;
-import com.bklugman.appointment.manager.resource.AppointmentSchedulerResource;
+import com.bklugman.appointment.manager.scheduler.AppointmentScheduler;
+import com.bklugman.appointment.manager.scheduler.ManagedAppointmentCreator;
+import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 import org.hibernate.SessionFactory;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 
 /**
  * a class for managing the dependency injection for the application.
  */
 public class Injector {
-    private static final Random RANDOM = new Random();
 
     /**
      * get an instance of {@link AppointmentResource}.
@@ -29,15 +31,28 @@ public class Injector {
     }
 
     /**
-     * get an instance of {@link AppointmentSchedulerResource}
+     * get an instance of {@link ManagedAppointmentCreator}.
      *
      * @param sessionFactory the hibernate session factory.
-     * @return an instance of {@link AppointmentSchedulerResource}
+     * @param config         the applications config.
+     * @return an instance of {@link ManagedAppointmentCreator}.
      */
-    public static AppointmentSchedulerResource getAppointmentSchedulerResource(final SessionFactory sessionFactory) {
+    public static ManagedAppointmentCreator managedAppointmentCreator(final SessionFactory sessionFactory, final AppointmentManagerConfig config) {
+        AppointmentScheduler scheduler = getAppointmentScheduler(sessionFactory, config);
+        return new ManagedAppointmentCreator(Executors.newScheduledThreadPool(2), scheduler, config.getAppointmentCreation().getDelay());
+    }
+
+    private static AppointmentScheduler getAppointmentScheduler(SessionFactory sessionFactory, AppointmentManagerConfig config) {
         AppointmentDao appointmentDao = getAppointmentDao(sessionFactory);
-        final int randomBound = (int) TimeUnit.HOURS.toMillis(1);
-        return new AppointmentSchedulerResource(appointmentDao, () -> RANDOM.nextInt(randomBound));
+
+        return new UnitOfWorkAwareProxyFactory("background - appointment creation", sessionFactory)
+                .create(AppointmentScheduler.class, new Class[]{AppointmentDao.class, Random.class, String.class, double.class, long.class},
+                        getAppointmentSchedulerConstructorArguments(config, appointmentDao));
+    }
+
+    private static Object[] getAppointmentSchedulerConstructorArguments(AppointmentManagerConfig config, AppointmentDao appointmentDao) {
+        return new Object[]{appointmentDao, new Random(), config.getAppointmentCreation().getDoctorsName(),
+                config.getAppointmentCreation().getPrice(), config.getAppointmentCreation().getDuration()};
     }
 
     private Injector() {

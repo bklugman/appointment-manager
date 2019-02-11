@@ -19,3 +19,9 @@ logging:
   level: INFO
   appenders:
     - type: console
+
+appointments:
+  delay: 10
+  price: 100.0
+  duration: 3600000
+  doctor: 'Dr. Foo Bar'
